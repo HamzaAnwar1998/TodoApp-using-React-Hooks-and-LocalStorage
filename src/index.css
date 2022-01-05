@@ -53,6 +53,12 @@ h3{
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top:-1px;
+}
+
+.form-and-todo-box .input-and-button .button.edit{
+  width: auto;
+  padding: 0px 10px;
 }
 
 .form-and-todo-box .input-and-button .button button{
@@ -61,4 +67,33 @@ h3{
   border: 2px solid #f92c0f;
   background-color: transparent;
   color: #fff;
+}
+
+.todo{
+  margin: 15px 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
+}
+
+.todo input{
+  margin-right: 5px;
+}
+
+.todo span{
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.todo .edit-and-delete{
+  display: flex;
+  cursor: pointer;
+}
+
+.delete-all{
+  padding: 10px;
+  cursor: pointer;
 }
