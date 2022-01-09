@@ -53,7 +53,18 @@ export const Form = () => {
   // saving data to local storage
   useEffect(()=>{
     localStorage.setItem('Todos', JSON.stringify(todos));
+    // we are updating todos in local storage whenever our todos state
+    // is changing
   },[todos]) // useEffect will run whenever our todos state changes
+
+  // delete a todo
+  const handleDelete=(id)=>{
+    // console.log(id);
+    const filtered = todos.filter((todo)=>{
+      return todo.ID !== id;
+    })
+    setTodos(filtered);
+  }
 
     return (
         <>
@@ -88,13 +99,21 @@ export const Form = () => {
                         <div style={{marginRight:7+'px'}}>
                           <Icon icon={edit2} size={18}/>
                         </div>
-                        <div>
+                        <div onClick={()=>handleDelete(individualTodo.ID)}>
                           <Icon icon={trash} size={18}/>
                         </div>
                       </div>
 
                     </div>
                   ))}
+                  {/* just after map closing brackets */}
+
+                  {/* delete all todos */}
+                  <div style={{display:'flex',justifyContent:'flex-end'}}>
+                    <button 
+                    onClick={()=>setTodos([])}
+                    className='delete-all'>DELETE ALL</button>
+                  </div>
                 </>
               )}
 
