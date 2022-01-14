@@ -66,9 +66,37 @@ export const Form = () => {
     setTodos(filtered);
   }
 
+  // edit form
+  const [editForm,setEditForm]=useState(false);
+
+  // id state
+  const [id, setId]=useState();
+
+  // handle edit icon
+  const handleEdit=(todo, index)=>{
+    setEditForm(true);
+    setId(index);
+    setTodoValue(todo.TodoValue);
+  }
+
+  // handle edit submit
+  const handleEditSubmit=(e)=>{
+    e.preventDefault();
+    let items = [...todos];
+    let item = items[id];
+    item.TodoValue = todoValue;
+    // item.completed = false;
+    items[id] = item;
+    setTodos(items);
+    setTodoValue('');
+    setEditForm(false);
+  }
+
     return (
         <>
+
           {/* form component */}
+          {editForm===false&&(
             <div className="form">
               <form autoComplete="off" onSubmit={handleSubmit}>
                 <div className="input-and-button">
@@ -81,44 +109,73 @@ export const Form = () => {
                   </div>
                 </div>
               </form>
+            </div>
+          )}
+          {/* end of form component */}
 
-              {/* start of rendering todos if we have todos.length > 0 */}
-              {todos.length>0&&(
-                <>
-                  {todos.map((individualTodo,index)=>(
-                    <div className='todo' key={individualTodo.ID}>
+          {/* edit form component */}
+          {editForm===true&&(
+            <div className="form">
+              <form autoComplete="off" onSubmit={handleEditSubmit}>
+                <div className="input-and-button">
+                  <input type='text' placeholder="Add an Item" required
+                  onChange={(e)=>setTodoValue(e.target.value)} value={todoValue}/>
+                  <div className='button edit'>
+                    <button type="submit">
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+          {/* end of edit form component */}
 
-                      {/* checkbox and value div   */}
-                      <div>
+          {/* start of rendering todos if we have todos.length > 0 */}
+          {todos.length>0&&(
+            <>
+              {todos.map((individualTodo,index)=>(
+                <div className='todo' key={individualTodo.ID}>
+
+                  {/* checkbox and value div   */}
+                  <div>
+                    {editForm===false&&(
                         <input type='checkbox'/>
-                        <span>{individualTodo.TodoValue}</span>
-                      </div>
+                    )}
+                    <span>{individualTodo.TodoValue}</span>
+                  </div>
 
-                      {/* edit and delete icon div */}
+                  {/* edit and delete icon div */}
+
+                  {editForm===false&&(
                       <div className='edit-and-delete'>
-                        <div style={{marginRight:7+'px'}}>
+
+                        <div style={{marginRight:7+'px'}}
+                        onClick={()=>handleEdit(individualTodo,index)}>
                           <Icon icon={edit2} size={18}/>
                         </div>
+    
                         <div onClick={()=>handleDelete(individualTodo.ID)}>
                           <Icon icon={trash} size={18}/>
                         </div>
+ 
                       </div>
+                  )}
 
-                    </div>
-                  ))}
-                  {/* just after map closing brackets */}
+                </div>
+              ))}
+              {/* just after map closing brackets */}
 
-                  {/* delete all todos */}
-                  <div style={{display:'flex',justifyContent:'flex-end'}}>
-                    <button 
-                    onClick={()=>setTodos([])}
-                    className='delete-all'>DELETE ALL</button>
-                  </div>
-                </>
-              )}
+              {/* delete all todos */}
+              <div style={{display:'flex',justifyContent:'flex-end'}}>
+                <button 
+                onClick={()=>setTodos([])}
+                className='delete-all'>DELETE ALL</button>
+              </div>
+              
+            </>
+          )}
 
-            </div>
-          {/* end of form component */}
         </>
     )
 }
